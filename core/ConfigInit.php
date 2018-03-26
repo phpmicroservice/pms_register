@@ -17,4 +17,12 @@ class ConfigInit
     {
 
     }
+
+    /**
+     * 配置更新
+     */
+    public static function update()
+    {
+
+    }
 }

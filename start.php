@@ -16,18 +16,26 @@ $server = new swoole_server('0.0.0.0', 9502, SWOOLE_BASE, SWOOLE_SOCK_TCP);
 $server->set(array(
     'daemonize' => false,
 ));
-$server->on('Connect', '\core\App::connect');
-$server->on('Receive', '\core\App::receive');
-$server->on('Close', '\core\App::close');
 
+# 主进程启动
 $server->on('Start', function ($server) {
     # 配置自动加载
     var_dump(get_included_files()); //此数组中的文件表示进程启动前就加载了，所以无法reload
     include ROOT_DIR . "/filemonitor.php";
-    # 设置 配置读取
-    \core\ConfigInit::init();
-    $server->a();
 
+    # 配置更新
+    $server->tick(5000,'\core\ConfigInit::update');
 });
+# Work进行 启动
+$server->on('WorkerStart', function ($server, $worker_id){
+    # 应用初始化
+    \core\App::init($server,$worker_id);
+});
+# 设置基本回调
+$server->on('Connect', '\core\App::connect');
+$server->on('Receive', '\core\App::receive');
+$server->on('Close', '\core\App::close');
+
+
 
 $server->start();
