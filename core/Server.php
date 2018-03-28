@@ -22,7 +22,11 @@ class Server
         $this->server->set(array(
             'daemonize' => false,
             'worker_num' => 4,
-            'task_worker_num' => 10
+            'task_worker_num' => 10,
+            'reload_async'=>true,
+            #
+            'open_eof_split' => true, //打开EOF检测
+            'package_eof' => PACKAGE_EOF, //设置EOF
         ));
         # 注册进程回调函数
         $this->workCall();

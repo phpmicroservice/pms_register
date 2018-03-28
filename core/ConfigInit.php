@@ -49,11 +49,15 @@ class ConfigInit extends Base
         echo $this->config_ip . ':' . $this->config_port . " \n";
 
         if (self::$config_client->isConnected()) {
-            self::$config_client->send('{"r":"config_acquire","d":"register"}');
+
         } else {
             self::$config_client->connect($this->config_ip, $this->config_port);
         }
         echo "ConfigInit -> init end \n";
+        $this->send([
+            'r'=>'config_acquire',
+            'd'=>'register'
+        ]);
 
     }
 
@@ -65,24 +69,25 @@ class ConfigInit extends Base
             self::$config_client = new \swoole_client(SWOOLE_SOCK_TCP, SWOOLE_SOCK_ASYNC);
         }
         self::$config_client->set([
-            'open_length_check' => true,
-            'package_length_func' => function ($data) {
-                var_dump($data);
-                if (strlen($data) < 8) {
-                    return 0;
-                }
-                $length = intval(trim(substr($data, 0, 8)));
-                if ($length <= 0) {
-                    return -1;
-                }
-                return $length + 8;
-            },
+            'open_eof_check' => true, //打开EOF检测
+            'package_eof' => "\r\n", //设置EOF
         ]);
 
         self::$config_client->on("connect", [$this, 'connect']);
         self::$config_client->on("receive", [$this, 'receive']);
         self::$config_client->on("error", [$this, 'error']);
         self::$config_client->on("close", [$this, 'close']);
+    }
+
+    /**
+     * 发送数据
+     * @param $data
+     */
+    public function send($data)
+    {
+
+        echo "send ".serialize($data)." \n";
+        self::$config_client->send(\swoole_serialize::pack($data).PACKAGE_EOF);
     }
 
 
@@ -93,6 +98,7 @@ class ConfigInit extends Base
     public function connect(\swoole_client $cli)
     {
         echo "config server connect \n";
+
     }
 
 
@@ -103,8 +109,15 @@ class ConfigInit extends Base
      */
     public function receive(\swoole_client $cli, $data)
     {
-        echo "Receive: $data \n";
+        $data_arr=explode(rtrim($data,PACKAGE_EOF));
+        foreach ($data_arr as $value){
+            $this->receive_true($value);
+        }
 
+    }
+
+    private function receive_true($data){
+        echo "Receive: $data \n";
     }
 
     /**
@@ -130,18 +143,25 @@ class ConfigInit extends Base
     public function update()
     {
         echo "ConfigInit update ... \n";
-        self::$config_client->send('{"r":"config_renewal","d":"register"}');
+        $this->send([
+            'r'=>'config_renewal',
+            'd'=>'register'
+        ]);
     }
 
     public function ping()
     {
         echo "ConfigInit ping ... \n";
-        self::$config_client->send('{"r":"ping_ping","d":""}');
+        $this->send([
+            'r'=>'ping_ping',
+            'd'=>''
+        ]);
     }
 
     public function demo()
     {
         echo "ConfigInit demo ... \n";
-        self::$config_client->send('4545');
+        $this->send('4545');
+        $this->send('363 '."\r\n ".'666');
     }
 }

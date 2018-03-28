@@ -9,6 +9,7 @@ define('RUNTIME_DIR',  './runtime/');# 运行目录
 define('CACHE_DIR',  './runtime/cache/');# 缓存目录
 define('APP_DEBUG', boolval(get_env("APP_DEBUG", 1)));# debug 的开启
 define('APP_SECRET_KEY', get_env("APP_SECRET_KEY", '77ZqeAppoLvZ1Fsc'));
+define('PACKAGE_EOF', '_pms_');
 //注册自动加载;采用Phalcon的自动加载
 $loader = new \Phalcon\Loader();
 $loader->registerNamespaces(
