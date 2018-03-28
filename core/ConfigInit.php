@@ -27,7 +27,6 @@ class ConfigInit extends Base
         $ConfigInit = $this;
 
         swoole_timer_tick(5000, function ($id) use ($ConfigInit, $server) {
-            $ConfigInit->demo();
             echo "config server judge \n";
             $cache = \Phalcon\Di::getDefault()->get('cache');
             # 确认初始化已经完成,更新配置信息
@@ -49,15 +48,15 @@ class ConfigInit extends Base
         echo $this->config_ip . ':' . $this->config_port . " \n";
 
         if (self::$config_client->isConnected()) {
-
+            $this->send([
+                'r'=>'config_acquire',
+                'd'=>'register'
+            ]);
         } else {
             self::$config_client->connect($this->config_ip, $this->config_port);
         }
         echo "ConfigInit -> init end \n";
-        $this->send([
-            'r'=>'config_acquire',
-            'd'=>'register'
-        ]);
+
 
     }
 
@@ -70,7 +69,7 @@ class ConfigInit extends Base
         }
         self::$config_client->set([
             'open_eof_check' => true, //打开EOF检测
-            'package_eof' => "\r\n", //设置EOF
+            'package_eof' => PACKAGE_EOF, //设置EOF
         ]);
 
         self::$config_client->on("connect", [$this, 'connect']);
@@ -85,8 +84,6 @@ class ConfigInit extends Base
      */
     public function send($data)
     {
-
-        echo "send ".serialize($data)." \n";
         self::$config_client->send(\swoole_serialize::pack($data).PACKAGE_EOF);
     }
 
@@ -109,7 +106,8 @@ class ConfigInit extends Base
      */
     public function receive(\swoole_client $cli, $data)
     {
-        $data_arr=explode(rtrim($data,PACKAGE_EOF));
+        echo "Receive:---- \n";
+        $data_arr=explode(PACKAGE_EOF,rtrim($data,PACKAGE_EOF));
         foreach ($data_arr as $value){
             $this->receive_true($value);
         }
@@ -117,7 +115,7 @@ class ConfigInit extends Base
     }
 
     private function receive_true($data){
-        echo "Receive: $data \n";
+        echo "Receive: ". var_export(\swoole_serialize::unpack($data),true) ." \n";
     }
 
     /**
@@ -158,10 +156,4 @@ class ConfigInit extends Base
         ]);
     }
 
-    public function demo()
-    {
-        echo "ConfigInit demo ... \n";
-        $this->send('4545');
-        $this->send('363 '."\r\n ".'666');
-    }
 }
