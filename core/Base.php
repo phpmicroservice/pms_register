@@ -11,6 +11,8 @@ namespace core;
 /**
  * Class Base
  * @property \Phalcon\Cache\BackendInterface $cache
+ * @property \Phalcon\Config $config
+ *
  * @package core
  */
 class Base extends \Phalcon\Di\Injectable

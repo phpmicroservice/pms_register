@@ -2,16 +2,18 @@
 
 namespace core;
 
+use Phalcon\Events\Event;
+
 /**
  * 配置初始化
  * Class Config
- * @property \swoole_client $config_client
+ * @property Client $config_client
  * @package core
  */
 class ConfigInit extends Base
 {
-    private $server;
-    public static $config_client;
+    private $swoole_server;
+    private $config_client;
     private $config_ip;
     private $config_port;
 
@@ -22,61 +24,32 @@ class ConfigInit extends Base
     {
         $this->config_ip = get_env('CONFIG_ADDRESS', 'pms_config');
         $this->config_port = get_env('CONFIG_PORT', '9502');
-        $this->server = $server;
-        $this->init();
-        $ConfigInit = $this;
+        $this->swoole_server = $server;
+        $this->config_client=new Client($server,$this->config_ip,$this->config_port);
+        $this->config_client->on();
+        $this->config_client->start();
 
-        swoole_timer_tick(5000, function ($id) use ($ConfigInit, $server) {
-            echo "config server judge \n";
-            $cache = \Phalcon\Di::getDefault()->get('cache');
-            # 确认初始化已经完成,更新配置信息
-            if (!$cache->get('cache_init')) {
-                # 没有初始化完毕
-                $ConfigInit->init();
-            } else {
-                # 完成初始化了
-                $ConfigInit->update();
-            }
+        $ConfigInit = $this;
+        swoole_timer_tick(5000, function ($timeid) use ($ConfigInit, $server) {
+            output('swoole_timer_tick');
+            # 没有初始化完毕
+            $ConfigInit->update();
         });
 
     }
 
-    private function init()
+
+
+    /**
+     * 获取通讯key
+     * @return string
+     */
+    private function get_key()
     {
-        echo "ConfigInit -> init \n";
-        $this->get_swoole_client();
-        echo $this->config_ip . ':' . $this->config_port . " \n";
-
-        if (self::$config_client->isConnected()) {
-            $this->send([
-                'r'=>'config_acquire',
-                'd'=>'register'
-            ]);
-        } else {
-            self::$config_client->connect($this->config_ip, $this->config_port);
-        }
-        echo "ConfigInit -> init end \n";
-
-
+       return  md5(md5(CONFIG_SECRET_KEY).md5(CONFIG_DATA_KEY).md5('register'));
     }
 
-    private function get_swoole_client()
-    {
-        echo "get_swoole_client \n";
-        if (self::$config_client instanceof \swoole_client) {
-        } else {
-            self::$config_client = new \swoole_client(SWOOLE_SOCK_TCP, SWOOLE_SOCK_ASYNC);
-        }
-        self::$config_client->set([
-            'open_eof_check' => true, //打开EOF检测
-            'package_eof' => PACKAGE_EOF, //设置EOF
-        ]);
 
-        self::$config_client->on("connect", [$this, 'connect']);
-        self::$config_client->on("receive", [$this, 'receive']);
-        self::$config_client->on("error", [$this, 'error']);
-        self::$config_client->on("close", [$this, 'close']);
-    }
 
     /**
      * 发送数据
@@ -84,7 +57,12 @@ class ConfigInit extends Base
      */
     public function send($data)
     {
-        self::$config_client->send(\swoole_serialize::pack($data).PACKAGE_EOF);
+        if($this->config_client->isConnected()){
+            $this->config_client->send($data);
+        }else{
+            $this->config_client->start();
+        }
+
     }
 
 
@@ -92,46 +70,56 @@ class ConfigInit extends Base
      * 链接成功
      * @param \swoole_client $cli
      */
-    public function connect(\swoole_client $cli)
+    public function connect(Event $event,Client $Client)
     {
         echo "config server connect \n";
-
+        $this->update();
     }
 
 
     /**
-     * 收到值
-     * @param \swoole_client $cli
-     * @param $data
+     * 收到返回值
+     * @param Event $event
+     * @param Client $Client
+     * @param $value
+     * @return int
      */
-    public function receive(\swoole_client $cli, $data)
-    {
-        echo "Receive:---- \n";
-        $data_arr=explode(PACKAGE_EOF,rtrim($data,PACKAGE_EOF));
-        foreach ($data_arr as $value){
-            $this->receive_true($value);
+    public function receive_true(Event $event,Client $Client,$value){
+        output($value,'receive_true1111111');
+        return  1;
+        $data =\swoole_serialize::unpack($data);
+        output($data,'receive_true');
+        $error=$data['e']??0;
+        if(!$error){
+            #没有错误 config_init config_md5 config_data
+            $config=$data['d'];
+            if($this->cache->get('config_md5')!=\tool\Arr::array_md5($config)){
+                # 存在更新 更新hash
+                $this->cache->save('config_md5',\tool\Arr::array_md5($config));
+                # 更新配置信息
+                $this->cache->save('config_data',$config);
+                self::updata_cache();
+            }
+
+        }else{
+            # 出现了错误!
+            output([$data],'error');
         }
-
-    }
-
-    private function receive_true($data){
-        echo "Receive: ". var_export(\swoole_serialize::unpack($data),true) ." \n";
     }
 
     /**
      * 链接出错的
      * @param \swoole_client $cli
      */
-    public function error(\swoole_client $cli)
+    public function error(Event $event,Client $Client)
     {
-        echo "config server error \n";
+        output('config server error');
 
     }
 
-    public function close(\swoole_client $cli)
+    public function close(Event $event,Client $Client)
     {
-        echo "config server close \n";
-
+        output('config server close');
     }
 
 
@@ -140,20 +128,34 @@ class ConfigInit extends Base
      */
     public function update()
     {
-        echo "ConfigInit update ... \n";
+        output('ConfigInit update ...');
         $this->send([
-            'r'=>'config_renewal',
-            'd'=>'register'
+            'r'=>'config_acquire',
+            'd'=>[
+                'n'=>"register",
+                'k'=>$this->get_key()
+            ]
         ]);
     }
 
-    public function ping()
+    /**
+     * 从缓存更新
+     */
+    public static function updata_cache()
     {
-        echo "ConfigInit ping ... \n";
-        $this->send([
-            'r'=>'ping_ping',
-            'd'=>''
-        ]);
+        output(' updata_cache ');
+        $cache =\Phalcon\Di::getDefault()->get('cache');
+        $config=\Phalcon\Di::getDefault()->get('config');
+        if($cache->exists('config_data')){
+            $config_data =$cache->get('config_data',[]);
+        }else{
+            $config_data =[];
+        }
+       // output($config_data,'config_data');
+        $config->merge(new \Phalcon\Config($config_data));
     }
+
+
+
 
 }

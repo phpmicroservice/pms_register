@@ -34,7 +34,7 @@ $di = new Phalcon\DI\FactoryDefault();
 
 $di->setShared('config', function () {
     #Read configuration
-    $config = new Phalcon\Config\Adapter\Json(ROOT_DIR.'/data/config/data.json');
+    $config = new Phalcon\Config([]);
     return $config;
 });
 
@@ -55,6 +55,21 @@ $di->setShared('cache', function () {
     return $cache;
 });
 
+
+
+
+
+//注册过滤器,添加了几个自定义过滤方法
+$di->setShared('filter', function() {
+    $filter = new \Phalcon\Filter();
+//    $filter->add('json', new \core\Filter\JsonFilter());
+    return $filter;
+});
+//事件管理器
+$di->setShared('eventsManager', function() {
+    $eventsManager = new \Phalcon\Events\Manager();
+    return $eventsManager;
+});
 
 
 
