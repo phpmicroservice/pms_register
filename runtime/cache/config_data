@@ -1,0 +1,1 @@
+a:1:{s:8:"database";a:4:{s:14:"app_mysql_host";s:11:"192.168.1.9";s:18:"app_mysql_username";s:11:"dongyongsai";s:18:"app_mysql_password";s:7:"123.369";s:16:"app_mysql_dbname";s:12:"dys_register";}}
