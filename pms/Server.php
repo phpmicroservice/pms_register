@@ -57,8 +57,8 @@ class Server extends Base
      */
     public function start()
     {
-      
-        $this->eventsManager->fire($this->name.':beforeStart', $this, $this->swoole_server);
+
+        $this->eventsManager->fire($this->name . ':beforeStart', $this, $this->swoole_server);
         $this->swoole_server->start();
     }
 
@@ -148,7 +148,7 @@ class Server extends Base
         }
         if ($this->dConfig->config_init) {
             # 从缓存更新配置
-            \swoole_timer_tick(5000,function(){
+            \swoole_timer_tick(5000, function () {
                 \pms\ConfigInit::updata_cache();
             });
         }
@@ -163,11 +163,11 @@ class Server extends Base
      */
     public function readyJudge($time_id)
     {
-        if($this->dConfig->ready){
+        if ($this->dConfig->ready) {
             swoole_timer_clear($time_id);
-           $this->readySucceed();
+            $this->readySucceed();
         }
-        $this->eventsManager->fire($this->name.':readyJudge', $this,$time_id);
+        $this->eventsManager->fire($this->name . ':readyJudge', $this, $time_id);
     }
 
     /**
@@ -175,7 +175,7 @@ class Server extends Base
      */
     public function readySucceed()
     {
-        $this->eventsManager->fire($this->name.':readySucceed', $this,$this->swoole_server);
+        $this->eventsManager->fire($this->name . ':readySucceed', $this, $this->swoole_server);
 
     }
 
