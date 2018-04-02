@@ -151,8 +151,32 @@ class Server extends Base
             \swoole_timer_tick(5000,function(){
                 \pms\ConfigInit::updata_cache();
             });
-
         }
+
+        # 准备判断事件
+        \swoole_timer_tick(2000, [$this, 'readyJudge']);
+    }
+
+
+    /**
+     * 准备判断事件,可以再这个事件内判断应用是否准备完毕
+     */
+    public function readyJudge($time_id)
+    {
+        if($this->dConfig->ready){
+            swoole_timer_clear($time_id);
+           $this->readySucceed();
+        }
+        $this->eventsManager->fire($this->name.':readyJudge', $this,$time_id);
+    }
+
+    /**
+     * 准备完成时间
+     */
+    public function readySucceed()
+    {
+        $this->eventsManager->fire($this->name.':readySucceed', $this,$this->swoole_server);
+
     }
 
 

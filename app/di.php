@@ -70,19 +70,20 @@ $di->setShared('gCache', function () use ($di) {
             "lifetime" => 172800,
         ]
     );
+    output($di['config']->cache->host,'gCache');
+    $op=[ "host" => $di['config']->cache->host,
+        "port" => $di['config']->cache->port,
+        "auth" => $di['config']->cache->auth,
+        "persistent" => $di['config']->cache->persistent,
+        'prefix' => $di['config']->cache->prefix,
+        "index" => $di['config']->cache->index];
+    if(!$di['config']->cache->auth){
+        unset($op['auth']);
+    }
+
 
     $cache = new \Phalcon\Cache\Backend\Redis(
-        $frontCache, [
-            [
-                "host" => $di['config']->cache->host,
-                "port" => $di['config']->cache->port,
-                "auth" => $di['config']->cache->auth,
-                "persistent" => $di['config']->cache->persistent,
-                'prefix' => $di['config']->cache->prefix,
-                "index" => $di['config']->cache->index,
-            ]
-        ]
-    );
+        $frontCache, $op   );
     return $cache;
 });
 
@@ -115,7 +116,7 @@ $di->set(
 
 
 $di->setShared('logger', function () {
-    $logger = new \core\MysqlLog('log');
+    $logger = new \pms\Logger\Adapter\MysqlLog('log');
     return $logger;
 });
 

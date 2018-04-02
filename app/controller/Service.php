@@ -14,18 +14,18 @@ class Service extends \app\Controller
     /**
      * 初始化
      */
-    public function onInitialize( )
+    protected function onInitialize($connect)
     {
-        $this->logicServer=new \app\logic\Service();
+        $this->logicServer=new \app\logic\Service($connect);
     }
 
     /**
      * 心跳
      */
-    public function ping()
+    public function ping($data)
     {
-
-
+        $this->logicServer->ping($data);
+        $this->connect->send_succee([],'收到ping!');
     }
 
     /**
@@ -33,11 +33,9 @@ class Service extends \app\Controller
      */
     public function reg($data)
     {
-        output(func_get_args(),'reg');
-        $server_list =$this->logicServer->getListName();
         $this->logicServer->addService($data['name']);
-
-
+        $this->logicServer->addServiceMachine($data['name'],$data);
+        $this->connect->send_succee([],'注册成功!');
     }
 
     /**

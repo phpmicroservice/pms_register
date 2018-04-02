@@ -83,8 +83,8 @@ class Router extends Base
         if ($this->eventsManager->fire($this->name.':handleCall', $this, $this->connect->getData(),true) === false) {
             return 1;
         }
-
-        if(!$this->dConfig['ready']){
+        
+        if(!$this->dConfig->ready){
             return $this->connect->send_error('服务未完成初始化',[],503);
         }
         $class_name = '\\app\\controller\\' . ucfirst($controller_name);

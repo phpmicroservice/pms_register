@@ -11,6 +11,7 @@ return [
             'mapdemo-demo'=>'demo-mapdemo'
         ]
     ],
+    'overtime'=>10,
     'config_init'=>true,
     'server_reg'=>false,
     'ready'=>false

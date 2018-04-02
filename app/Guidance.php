@@ -40,7 +40,6 @@ class Guidance extends \Phalcon\Di\Injectable
         });
 
         $this->server_table;
-
     }
 
     /**
@@ -54,17 +53,36 @@ class Guidance extends \Phalcon\Di\Injectable
         output($server->taskworker, 'guidance');
         # 绑定一个权限验证
         $this->eventsManager->attach('Router:handleCall', $this);
-        # 判断是否已经初始化完毕
-        swoole_timer_tick(3000, function ($timeid) {
-            # 没有初始化完毕
-            $config=\Phalcon\Di::getDefault()->get('config');
-            $dConfig=\Phalcon\Di::getDefault()->get('dConfig');
-            output($config->database, 'init63');
-            if($config->database){
-                $dConfig->ready=true;
-                output('初始化完成', 'init');
-                swoole_timer_clear($timeid);
-            }
+        # 绑定一个准备判断和准备成功
+        $this->eventsManager->attach('Server:readyJudge', $this);
+        $this->eventsManager->attach('Server:readySucceed', $this);
+
+
+
+    }
+
+
+    /**
+     * 准备判断
+     */
+    public function readyJudge(Event $event, \pms\Server $pms_server,$timeid)
+    {
+        if($this->config->database){
+            $this->dConfig->ready=true;
+            output('初始化完成', 'init');
+        }
+        $this->dConfig->ready=true;
+    }
+
+    /**
+     * 准备完成
+     */
+    public function readySucceed(){
+
+        # 对已注册的服务进行心跳检测
+        swoole_timer_tick($this->dConfig->overtime*1000, function ($timeid) {
+            $server=new \app\logic\Service();
+            $server->pingExamine();
         });
     }
 

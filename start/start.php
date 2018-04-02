@@ -23,8 +23,8 @@ $loader->register();
 
 $server = new \pms\Server('0.0.0.0', 9502, SWOOLE_BASE, SWOOLE_SOCK_TCP, [
     'daemonize' => false,
-    'worker_num' => 4,
-    'task_worker_num' => 4,
+    'worker_num' => 2,
+    'task_worker_num' => 2,
     'reload_async' => false,
     'open_eof_split' => true, //打开EOF检测
     'package_eof' => PACKAGE_EOF, //设置EOF
