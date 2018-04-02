@@ -5,7 +5,7 @@ namespace pms\bear;
 
 abstract class Table
 {
-    protected $size = 65536;#2µÄ13´Î·½
+    protected $size = 65536;#2çš„13æ¬¡æ–¹
     protected $column = [
         ''
     ];
@@ -13,7 +13,7 @@ abstract class Table
 
 
     /**
-     * ±íµÄÊµÀı»¯
+     * è¡¨çš„å®ä¾‹åŒ–
      * Table constructor.
      */
     public function __construct()
@@ -27,7 +27,7 @@ abstract class Table
     }
 
     /**
-     * ÉèÖÃ
+     * è®¾ç½®
      * @param string $key
      * @param array $value
      */
@@ -37,7 +37,7 @@ abstract class Table
     }
 
     /**
-     * Ô­×Ó×ÔÔö²Ù×÷¡£
+     * åŸå­è‡ªå¢æ“ä½œã€‚
      * @param string $key
      * @param string $column
      * @param int $incrby
@@ -48,7 +48,7 @@ abstract class Table
     }
 
     /**
-     * Ô­×Ó×Ô¼õ²Ù×÷¡£
+     * åŸå­è‡ªå‡æ“ä½œã€‚
      * @param string $key
      * @param string $column
      * @param int $incrby
@@ -59,7 +59,7 @@ abstract class Table
     }
 
     /**
-     * »ñÈ¡Ò»ĞĞÊı¾İ
+     * è·å–ä¸€è¡Œæ•°æ®
      * @param string $key
      * @param string|null $field
      * @return array
@@ -70,7 +70,7 @@ abstract class Table
     }
 
     /**
-     * ÅĞ¶ÏÒ»¸öÊı¾İÊÇ·ñ´æÔÚ
+     * åˆ¤æ–­ä¸€ä¸ªæ•°æ®æ˜¯å¦å­˜åœ¨
      * @param string $key
      * @return mixed
      */
@@ -80,7 +80,7 @@ abstract class Table
     }
 
     /**
-     * É¾³ıÒ»ĞĞÊı¾İ
+     * åˆ é™¤ä¸€è¡Œæ•°æ®
      * @param string $key
      * @return mixed
      */
@@ -91,7 +91,7 @@ abstract class Table
 
 
     /**
-     * Í³¼Æ±íµÄĞĞÊı
+     * ç»Ÿè®¡è¡¨çš„è¡Œæ•°
      * @param int $mode
      * @return mixed
      */
@@ -101,7 +101,7 @@ abstract class Table
     }
 
     /**
-     * Ïú»ÙÕâ¸ö±í
+     * é”€æ¯è¿™ä¸ªè¡¨
      * @return mixed
      */
     public function destroy()
