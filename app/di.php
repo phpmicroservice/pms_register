@@ -4,25 +4,23 @@
  * Services are globally registered in this file
  * 服务的全局注册都这里,依赖注入
  */
+
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Events\Manager;
 use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
 
 
-
 //注册自动加载
 $loader = new \Phalcon\Loader();
 $loader->registerNamespaces(
     [
-        'app'    => ROOT_DIR . '/./app/',
-        'core'    => ROOT_DIR . '/./core/',
-        'tool'    => ROOT_DIR . '/./tool/',
+        'app' => ROOT_DIR . '/./app/',
+        'core' => ROOT_DIR . '/./core/',
+        'tool' => ROOT_DIR . '/./tool/',
     ]
 );
 $loader->register();
-
-
 
 
 /**
@@ -33,17 +31,19 @@ $di = new Phalcon\DI\FactoryDefault();
 
 $di->setShared('dConfig', function () {
     #Read configuration
-    $config = new Phalcon\Config(require ROOT_DIR.'/config/config.php');
+    $config = new Phalcon\Config(require ROOT_DIR . '/config/config.php');
     return $config;
 });
 
 $di->setShared('config', function () {
     #Read configuration
-    $config = new Phalcon\Config\Adapter\Json(ROOT_DIR.'/data/config/data.json');
+    $config = new Phalcon\Config\Adapter\Json(ROOT_DIR . '/data/config/data.json');
     return $config;
 });
 
-
+/**
+ * 本地缓存
+ */
 $di->setShared('cache', function () {
     // Create an Output frontend. Cache the files for 2 days
     $frontCache = new \Phalcon\Cache\Frontend\Data(
@@ -60,12 +60,35 @@ $di->setShared('cache', function () {
     return $cache;
 });
 
+/**
+ * 全局缓存
+ */
+$di->setShared('gCache', function () use ($di) {
+    // Create an Output frontend. Cache the files for 2 days
+    $frontCache = new \Phalcon\Cache\Frontend\Data(
+        [
+            "lifetime" => 172800,
+        ]
+    );
 
-
+    $cache = new \Phalcon\Cache\Backend\Redis(
+        $frontCache, [
+            [
+                "host" => $di['config']->cache->host,
+                "port" => $di['config']->cache->port,
+                "auth" => $di['config']->cache->auth,
+                "persistent" => $di['config']->cache->persistent,
+                'prefix' => $di['config']->cache->prefix,
+                "index" => $di['config']->cache->index,
+            ]
+        ]
+    );
+    return $cache;
+});
 
 
 //注册过滤器,添加了几个自定义过滤方法
-$di->setShared('filter', function() {
+$di->setShared('filter', function () {
     $filter = new \Phalcon\Filter();
 //    $filter->add('json', new \core\Filter\JsonFilter());
     return $filter;
@@ -86,10 +109,9 @@ $di->setShared('filter', function () {
 
 
 $di->set(
-        "modelsManager", function() {
+    "modelsManager", function () {
     return new \Phalcon\Mvc\Model\Manager();
 });
-
 
 
 $di->setShared('logger', function () {
@@ -102,7 +124,7 @@ $di->setShared('logger', function () {
  * Database connection is created based in the parameters defined in the
  * configuration file
  */
-$di["db"] = function () use($di) {
+$di["db"] = function () use ($di) {
     var_dump($di['config']->database);
     return new DbAdapter(
         [

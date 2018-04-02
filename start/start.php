@@ -6,8 +6,6 @@ include __DIR__.'/../pms/index.php';
 # 进行一些项目配置
 define('APP_SECRET_KEY', get_env("APP_SECRET_KEY"));
 
-
-
 //注册自动加载
 $loader = new \Phalcon\Loader();
 $loader->registerNamespaces(
@@ -27,5 +25,7 @@ $server = new \pms\Server('0.0.0.0', 9502, SWOOLE_BASE, SWOOLE_SOCK_TCP, [
     'open_eof_split' => true, //打开EOF检测
     'package_eof' => PACKAGE_EOF, //设置EOF
 ]);
-$server->onBind('onWorkerStart',new \app\guidance());
+$guidance =new \app\guidance();
+$server->onBind('onWorkerStart',$guidance);
+$server->onBind('beforeStart',$guidance);
 $server->start();

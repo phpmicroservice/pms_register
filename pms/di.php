@@ -2,7 +2,7 @@
 
 /**
  * Services are globally registered in this file
- * 服务的全局注册都这里
+ * 服务的全局注册都这里,依赖注入
  */
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
@@ -31,7 +31,11 @@ $loader->register();
  */
 $di = new Phalcon\DI\FactoryDefault();
 
-
+$di->setShared('dConfig', function () {
+    #Read configuration
+    $config = new Phalcon\Config(require ROOT_DIR.'/config/config.php');
+    return $config;
+});
 $di->setShared('config', function () {
     #Read configuration
     $config = new Phalcon\Config([]);
@@ -39,6 +43,9 @@ $di->setShared('config', function () {
 });
 
 
+/**
+ * 本地缓存
+ */
 $di->setShared('cache', function () {
     // Create an Output frontend. Cache the files for 2 days
     $frontCache = new \Phalcon\Cache\Frontend\Data(
@@ -55,6 +62,32 @@ $di->setShared('cache', function () {
     return $cache;
 });
 
+/**
+ * 全局缓存
+ */
+$di->setShared('gCache', function () use($di){
+    // Create an Output frontend. Cache the files for 2 days
+    $frontCache = new \Phalcon\Cache\Frontend\Data(
+        [
+            "lifetime" => 172800,
+        ]
+    );
+
+    $cache = new \Phalcon\Cache\Backend\Redis(
+        $frontCache, [
+            [
+                "host"       => $di['config']->cache->host,
+                "port"       => $di['config']->cache->port,
+                "auth"       => $di['config']->cache->auth,
+                "persistent" => $di['config']->cache->persistent,
+                'prefix'=>$di['config']->cache->prefix,
+                "index"      => $di['config']->cache->index,
+            ]
+        ]
+    );
+    return $cache;
+});
+
 
 
 
@@ -66,16 +99,14 @@ $di->setShared('filter', function() {
     return $filter;
 });
 //事件管理器
-$di->setShared('eventsManager', function() {
+$di->setShared('eventsManager', function () {
     $eventsManager = new \Phalcon\Events\Manager();
     return $eventsManager;
 });
 
 
-
-
 //注册过滤器,添加了几个自定义过滤方法
-$di->setShared('filter', function() {
+$di->setShared('filter', function () {
     $filter = new \Phalcon\Filter();
 //    $filter->add('json', new \core\Filter\JsonFilter());
     return $filter;
@@ -90,7 +121,7 @@ $di->set(
 
 
 $di->setShared('logger', function () {
-    $logger = new \core\MysqlLog('log');
+    $logger = new \pms\Logger\Adapter\MysqlLog('log');
     return $logger;
 });
 

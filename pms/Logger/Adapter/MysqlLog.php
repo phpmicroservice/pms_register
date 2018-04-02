@@ -1,6 +1,6 @@
 <?php
 
-namespace pms;
+namespace pms\Logger\Adapter;
 
 use Phalcon\Logger\Adapter;
 use Phalcon\Logger\Exception;
