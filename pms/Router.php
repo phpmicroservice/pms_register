@@ -10,8 +10,10 @@ namespace pms;
  */
 class Router extends Base
 {
-    private $connect;
+    public $connect;
     protected $name='Router';
+    private $controller_name;
+    private $action_name;
 
     /**
      * 构造函数
@@ -76,7 +78,9 @@ class Router extends Base
      */
     private function handleCall($controller_name, $action_name)
     {
-        if ($this->eventsManager->fire($this->name.':handleCall', $this, [$controller_name, $action_name],true) === false) {
+        $this->controller_name=$controller_name;
+        $this->action_name=$action_name;
+        if ($this->eventsManager->fire($this->name.':handleCall', $this, $this->connect->getData(),true) === false) {
             return 1;
         }
 

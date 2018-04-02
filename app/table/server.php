@@ -10,12 +10,12 @@ class server extends \pms\bear\Table
     protected $column = [
         [
             'name' => 'cache_key',
-            'type' => swoole_table::TYPE_STRING,
+            'type' => \Swoole\Table::TYPE_STRING,
             'size' => 32
         ],
         [
             'name' => 'number',
-            'type' => swoole_table::TYPE_INT,
+            'type' => \Swoole\Table::TYPE_INT,
             'size' => 8
         ]
     ];

@@ -189,7 +189,7 @@ class Client extends \pms\Base
     public function receive_true(\swoole_client $client, $data)
     {
         $this->eventsManager->fire($this->name . ":receive_true", $this, $data);
-        output('内容就不展示了', 'client_receive_true');
+        //output('内容就不展示了', 'client_receive_true');
         $data_arr = explode(PACKAGE_EOF, rtrim($data, PACKAGE_EOF));
         foreach ($data_arr as $value) {
             $this->receive($value);
@@ -205,7 +205,7 @@ class Client extends \pms\Base
     private function receive($value)
     {
         $data = $this->decode($value);
-        output('这是内容', 'client_receive');
+       // output('这是内容', 'client_receive');
         $this->eventsManager->fire($this->name . ":receive", $this, $data);
     }
 

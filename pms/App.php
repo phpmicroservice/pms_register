@@ -20,6 +20,11 @@ class App extends Base
             $this->config_init = new ConfigInit($server);
             $this->config_init->update();
         }
+        if ($this->dConfig->server_reg) {
+            # 进行服务注册
+            $this->config_init = new Register($server);
+            $this->config_init->ping();
+        }
 
     }
 
@@ -38,7 +43,7 @@ class App extends Base
     public function onReceive(\Swoole\Server $server, int $fd, int $reactor_id, string $data)
     {
         $this->eventsManager->fire($this->name . ":onReceive", $this, [$fd, $reactor_id, $data]);
-        output($data, 'onReceive');
+        //output($data, 'onReceive');
         $data_arr = explode(PACKAGE_EOF, rtrim($data, PACKAGE_EOF));
         foreach ($data_arr as $value) {
             $this->receive($server, $fd, $reactor_id, $value);

@@ -2,7 +2,7 @@
 
 /**
  * Services are globally registered in this file
- * æœåŠ¡çš„å…¨å±€æ³¨å†Œéƒ½è¿™é‡Œ,ä¾èµ–æ³¨å…¥
+ * ·þÎñµÄÈ«¾Ö×¢²á¶¼ÕâÀï,ÒÀÀµ×¢Èë
  */
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
@@ -11,7 +11,7 @@ use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
 
 
 
-//æ³¨å†Œè‡ªåŠ¨åŠ è½½
+//×¢²á×Ô¶¯¼ÓÔØ
 $loader = new \Phalcon\Loader();
 $loader->registerNamespaces(
     [
@@ -44,7 +44,7 @@ $di->setShared('config', function () {
 
 
 /**
- * æœ¬åœ°ç¼“å­˜
+ * ±¾µØ»º´æ
  */
 $di->setShared('cache', function () {
     // Create an Output frontend. Cache the files for 2 days
@@ -63,7 +63,7 @@ $di->setShared('cache', function () {
 });
 
 /**
- * å…¨å±€ç¼“å­˜
+ * È«¾Ö»º´æ
  */
 $di->setShared('gCache', function () use($di){
     // Create an Output frontend. Cache the files for 2 days
@@ -92,20 +92,20 @@ $di->setShared('gCache', function () use($di){
 
 
 
-//æ³¨å†Œè¿‡æ»¤å™¨,æ·»åŠ äº†å‡ ä¸ªè‡ªå®šä¹‰è¿‡æ»¤æ–¹æ³•
+//×¢²á¹ýÂËÆ÷,Ìí¼ÓÁË¼¸¸ö×Ô¶¨Òå¹ýÂË·½·¨
 $di->setShared('filter', function() {
     $filter = new \Phalcon\Filter();
 //    $filter->add('json', new \core\Filter\JsonFilter());
     return $filter;
 });
-//äº‹ä»¶ç®¡ç†å™¨
+//ÊÂ¼þ¹ÜÀíÆ÷
 $di->setShared('eventsManager', function () {
     $eventsManager = new \Phalcon\Events\Manager();
     return $eventsManager;
 });
 
 
-//æ³¨å†Œè¿‡æ»¤å™¨,æ·»åŠ äº†å‡ ä¸ªè‡ªå®šä¹‰è¿‡æ»¤æ–¹æ³•
+//×¢²á¹ýÂËÆ÷,Ìí¼ÓÁË¼¸¸ö×Ô¶¨Òå¹ýÂË·½·¨
 $di->setShared('filter', function () {
     $filter = new \Phalcon\Filter();
 //    $filter->add('json', new \core\Filter\JsonFilter());

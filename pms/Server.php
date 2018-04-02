@@ -57,6 +57,7 @@ class Server extends Base
      */
     public function start()
     {
+      
         $this->eventsManager->fire($this->name.':beforeStart', $this, $this->swoole_server);
         $this->swoole_server->start();
     }
@@ -144,6 +145,13 @@ class Server extends Base
             \swoole_timer_tick(3000, [$this, 'codeUpdata'], ROOT_DIR . '/start/');
             # 应用初始化
             $this->app->init($server, $worker_id);
+        }
+        if ($this->dConfig->config_init) {
+            # 从缓存更新配置
+            \swoole_timer_tick(5000,function(){
+                \pms\ConfigInit::updata_cache();
+            });
+
         }
     }
 

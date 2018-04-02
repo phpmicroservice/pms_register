@@ -4,7 +4,7 @@ namespace app\controller;
 /**
  * Empty 不合法的请求而的处理
  */
-class Fault extends \core\Controller
+class Fault extends \pms\Controller
 {
 
     /**
@@ -13,7 +13,7 @@ class Fault extends \core\Controller
      */
     public function controller()
     {
-        $this->connect->send('不合法的控制器!');
+        $this->connect->send_error('不合法的控制器!');
 
     }
 
@@ -22,7 +22,7 @@ class Fault extends \core\Controller
      */
     public function action()
     {
-        $this->connect->send('不合法的方法!');
+        $this->connect->send_error('不合法的方法!');
     }
 
 

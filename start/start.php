@@ -5,6 +5,10 @@ define("SERVICE_NAME", "CONFIG");# 设置服务名字
 include __DIR__.'/../pms/index.php';
 # 进行一些项目配置
 define('APP_SECRET_KEY', get_env("APP_SECRET_KEY"));
+define('CONFIG_SECRET_KEY', get_env("CONFIG_SECRET_KEY"));
+define('CONFIG_DATA_KEY', get_env("CONFIG_DATA_KEY"));
+
+
 
 //注册自动加载
 $loader = new \Phalcon\Loader();

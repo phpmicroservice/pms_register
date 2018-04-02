@@ -130,7 +130,7 @@ class ConfigInit extends Base
      */
     public static function updata_cache()
     {
-        output(' updata_cache ');
+        //output(' updata_cache ');
         $cache = \Phalcon\Di::getDefault()->get('cache');
         $config = \Phalcon\Di::getDefault()->get('config');
         if ($cache->exists('config_data')) {
