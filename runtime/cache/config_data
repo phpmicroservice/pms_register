@@ -1,1 +1,1 @@
-a:1:{s:8:"database";a:4:{s:14:"app_mysql_host";s:11:"192.168.1.9";s:18:"app_mysql_username";s:11:"dongyongsai";s:18:"app_mysql_password";s:7:"123.369";s:16:"app_mysql_dbname";s:12:"dys_register";}}
+a:2:{s:8:"database";a:4:{s:14:"app_mysql_host";s:11:"192.168.1.9";s:18:"app_mysql_username";s:11:"dongyongsai";s:18:"app_mysql_password";s:7:"123.369";s:16:"app_mysql_dbname";s:12:"dys_register";}s:5:"cache";a:6:{s:4:"host";s:13:"192.168.1.202";s:4:"port";i:6379;s:4:"auth";s:0:"";s:10:"persistent";b:1;s:6:"prefix";s:9:"register_";s:5:"index";s:1:"2";}}
