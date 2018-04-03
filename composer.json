@@ -1,5 +1,5 @@
 {
   "require": {
-    "dongasai/pms_frame": "0.*"
+    "dongasai/pms_frame": "dev-master"
   }
 }
