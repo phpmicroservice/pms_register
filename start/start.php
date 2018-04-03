@@ -2,12 +2,11 @@
 //include './logo.php';
 echo "开始主程序! \n";
 define("SERVICE_NAME", "CONFIG");# 设置服务名字
-include __DIR__.'/../pms/index.php';
+require 'vendor/autoload.php';
 # 进行一些项目配置
 define('APP_SECRET_KEY', get_env("APP_SECRET_KEY"));
 define('CONFIG_SECRET_KEY', get_env("CONFIG_SECRET_KEY"));
 define('CONFIG_DATA_KEY', get_env("CONFIG_DATA_KEY"));
-
 
 
 //注册自动加载
@@ -15,7 +14,6 @@ $loader = new \Phalcon\Loader();
 $loader->registerNamespaces(
     [
         'apps' => ROOT_DIR . '/apps/',
-        'pms' => ROOT_DIR . '/pms/',
         'tool' => ROOT_DIR . '/tool/',
     ]
 );
