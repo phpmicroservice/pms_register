@@ -1,30 +1,85 @@
 [
     {
-        "name": "dongasai/pms_frame",
+        "name": "phpmicroservice/funch",
         "version": "0.0.1",
         "version_normalized": "0.0.1.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/phpmicroservice/pms.git",
-            "reference": "0fe4ea76b74eccd6ba3272bbf89577b3ae918d21"
+            "url": "https://github.com/phpmicroservice/funch.git",
+            "reference": "8d70ac11ad89e2d26107f9d846260b441bf3eeda"
         },
         "dist": {
             "type": "zip",
-            "url": "https://files.phpcomposer.com/files/phpmicroservice/pms/0fe4ea76b74eccd6ba3272bbf89577b3ae918d21.zip",
-            "reference": "0fe4ea76b74eccd6ba3272bbf89577b3ae918d21",
+            "url": "https://api.github.com/repos/phpmicroservice/funch/zipball/8d70ac11ad89e2d26107f9d846260b441bf3eeda",
+            "reference": "8d70ac11ad89e2d26107f9d846260b441bf3eeda",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">7"
+        },
+        "time": "2018-04-04T05:52:38+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "funch\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Dongasai",
+                "email": "1514582970@qq.com",
+                "homepage": "http://www.2xso.com",
+                "role": "Creator"
+            }
+        ],
+        "description": "PHP的基础函数的增强版本或补充功能",
+        "homepage": "https://github.com/phpmicroservice/funch",
+        "keywords": [
+            "function",
+            "lodash",
+            "method"
+        ]
+    },
+    {
+        "name": "phpmicroservice/pms-frame",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/phpmicroservice/pms.git",
+            "reference": "f722c71547b397c3a81503d13bca295fa97dbc8f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/phpmicroservice/pms/zipball/f722c71547b397c3a81503d13bca295fa97dbc8f",
+            "reference": "f722c71547b397c3a81503d13bca295fa97dbc8f",
             "shasum": ""
         },
         "require": {
             "ext-phalcon": "3.1.*",
             "ext-swoole": ">=2.1",
-            "php": "7.1.*"
+            "php": ">7.1",
+            "phpmicroservice/funch": "0.*"
         },
         "require-dev": {
             "eaglewu/swoole-ide-helper": "dev-master"
         },
-        "time": "2018-04-03T07:00:25+00:00",
-        "type": "library",
+        "time": "2018-04-04T06:04:21+00:00",
+        "type": "project",
         "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "pms\\": ""
+            },
+            "files": [
+                "/index.php"
+            ]
+        },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
             "MIT"

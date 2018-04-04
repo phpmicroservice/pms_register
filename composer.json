@@ -1,5 +1,11 @@
 {
   "require": {
     "phpmicroservice/pms-frame": "dev-master"
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.org"
+    }
   }
 }

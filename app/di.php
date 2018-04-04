@@ -17,7 +17,7 @@ $loader->registerNamespaces(
     [
         'app' => ROOT_DIR . '/app/',
         'pms' => ROOT_DIR . '/pms/',
-        'tool' => ROOT_DIR . '/tool/',
+        'funch' => ROOT_DIR . '/tool/',
     ]
 );
 $loader->register();

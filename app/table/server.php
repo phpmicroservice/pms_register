@@ -37,7 +37,7 @@ class server extends \pms\bear\Table
         if(empty($cache_data)){
             $cache_data=[];
         }
-        $cache_data[\tool\Arr::array_md5($host,$port,$name)]=[
+        $cache_data[\funch\Arr::array_md5($host, $port, $name)] = [
             'host'=>$host,
             'port'=>$port
         ];
@@ -57,7 +57,7 @@ class server extends \pms\bear\Table
         }else{
             # 不存在
             $info=[
-                'cache_key'=>\tool\Arr::array_md5(__FILE__,__LINE__,$name),
+                'cache_key' => \funch\Arr::array_md5(__FILE__, __LINE__, $name),
                 'number'=>0
             ];
             $this->set($name,$info);
@@ -79,7 +79,7 @@ class server extends \pms\bear\Table
         if (empty($cache_data)) {
             $cache_data = [];
         }
-        $key=\tool\Arr::array_md5($host, $port, $name);
+        $key = \funch\Arr::array_md5($host, $port, $name);
 
         if(isset($cache_data['$key'])){
             unset($cache_data[$key]);

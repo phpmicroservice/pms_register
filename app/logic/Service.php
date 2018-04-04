@@ -63,8 +63,8 @@ class Service extends \app\Base
      */
     public function addServiceMachine($name, $data)
     {
-        $key = \tool\Arr::array_md5($data);
-        $key_cache = \tool\Arr::array_md5('server_machine_', $name);
+        $key = \funch\Arr::array_md5($data);
+        $key_cache = \funch\Arr::array_md5('server_machine_', $name);
         $list = $this->getServiceMachine($name);
         $list[$key] = $data;
         return $this->gCache->save($key_cache, $list);
@@ -79,8 +79,8 @@ class Service extends \app\Base
     public function delServiceMachine($name, $data)
     {
         output($data,'delServiceMachine');
-        $key = \tool\Arr::array_md5($data);
-        $key_cache = \tool\Arr::array_md5('server_machine_', $name);
+        $key = \funch\Arr::array_md5($data);
+        $key_cache = \funch\Arr::array_md5('server_machine_', $name);
         $list = $this->getServiceMachine($name);
         if(empty($list)){
            #空的了
@@ -98,7 +98,7 @@ class Service extends \app\Base
      */
     private function getServiceMachine($name)
     {
-        $key = \tool\Arr::array_md5('server_machine_', $name);
+        $key = \funch\Arr::array_md5('server_machine_', $name);
         $list = $this->gCache->get($key);
         if (empty($list)) {
             $this->gCache->save($key, []);
@@ -127,7 +127,7 @@ class Service extends \app\Base
      */
     private function getPingInfo($data)
     {
-        $key = \tool\Arr::array_md5([$data, 'ping']);
+        $key = \funch\Arr::array_md5([$data, 'ping']);
         $list = $this->gCache->get($key);
         if (empty($list)) {
             $this->gCache->save($key, []);
@@ -144,7 +144,7 @@ class Service extends \app\Base
      */
     private function setPingInfo($data, $info)
     {
-        $key = \tool\Arr::array_md5([$data, 'ping']);
+        $key = \funch\Arr::array_md5([$data, 'ping']);
         return $this->gCache->save($key, $info);
     }
 
