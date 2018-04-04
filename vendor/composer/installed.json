@@ -52,12 +52,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/phpmicroservice/pms.git",
-            "reference": "f722c71547b397c3a81503d13bca295fa97dbc8f"
+            "reference": "25d5e2b4136bb214b7ac72c5478ae4455666d419"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/phpmicroservice/pms/zipball/f722c71547b397c3a81503d13bca295fa97dbc8f",
-            "reference": "f722c71547b397c3a81503d13bca295fa97dbc8f",
+            "url": "https://api.github.com/repos/phpmicroservice/pms/zipball/25d5e2b4136bb214b7ac72c5478ae4455666d419",
+            "reference": "25d5e2b4136bb214b7ac72c5478ae4455666d419",
             "shasum": ""
         },
         "require": {
@@ -69,7 +69,7 @@
         "require-dev": {
             "eaglewu/swoole-ide-helper": "dev-master"
         },
-        "time": "2018-04-04T06:04:21+00:00",
+        "time": "2018-04-04T08:09:43+00:00",
         "type": "project",
         "installation-source": "source",
         "autoload": {

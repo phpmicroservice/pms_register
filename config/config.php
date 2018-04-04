@@ -14,5 +14,10 @@ return [
     'overtime'=>10,
     'config_init'=>true,
     'server_reg'=>false,
-    'ready'=>false
+    'ready' => false,
+    'codeUpdata' => [
+        '/app/',
+        '/start/',
+        '/tool/'
+    ]
 ];
