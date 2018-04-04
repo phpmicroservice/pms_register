@@ -71,6 +71,15 @@ class Service extends \app\Base
     }
 
     /**
+     * 获取一个服务的信息
+     * @param $name
+     */
+    public function getOneInfo($name)
+    {
+
+    }
+
+    /**
      * 从机器组中删除一条机器
      * @param $name
      * @param $data

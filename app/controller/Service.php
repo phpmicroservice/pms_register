@@ -41,9 +41,10 @@ class Service extends \app\Controller
     /**
      * 获取一个
      */
-    public function getone()
+    public function getone($data)
     {
-
+        $info = $this->logicServer->getOneInfo($data['name']);
+        $this->connect->send_succee($info);
     }
 
     /**
