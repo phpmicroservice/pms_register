@@ -94,12 +94,13 @@ class Guidance extends \Phalcon\Di\Injectable
      */
     public function handleCall(Event $event, \pms\Router $router, $data)
     {
-        output($data, 'handleCall');
+
         $new_key=md5(md5(APP_SECRET_KEY) . md5($data['name']));
         $old_key=$data['k'];
         if (\hash_equals($new_key, $old_key)) {
             return true;
         }
+        output([$data,APP_SECRET_KEY,$new_key,'没有权限'], 'handleCall403');
         $router->connect->send_error('没有权限', [], 403);
         return false;
     }
