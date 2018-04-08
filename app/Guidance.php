@@ -80,7 +80,7 @@ class Guidance extends \Phalcon\Di\Injectable
     public function readySucceed(){
 
         # 对已注册的服务进行心跳检测
-        swoole_timer_tick($this->dConfig->overtime*1000, function ($timeid) {
+        swoole_timer_tick($this->dConfig->overtime * 500, function ($timeid) {
             $server=new \app\logic\Service();
             $server->pingExamine();
         });

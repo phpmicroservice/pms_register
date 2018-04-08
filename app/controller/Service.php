@@ -50,9 +50,10 @@ class Service extends \app\Controller
     /**
      * 获取所有
      */
-    public function getall()
+    public function getall($data)
     {
-
+        $info = $this->logicServer->getall();
+        $this->connect->send_succee($info);
     }
 
 

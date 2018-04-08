@@ -2,6 +2,7 @@
 
 namespace app\logic;
 
+use funch\date;
 
 
 /**
@@ -22,6 +23,7 @@ class Service extends \app\Base
             foreach ($list as $sm){
                 $pingInfo=$this->getPingInfo($sm);
                 $last_time=array_pop($pingInfo);
+                output([\date('Y-m-d H:i:s', $last_time), date('Y-m-d H:i:s'), time() - $last_time, $this->dConfig->overtime], 'pingExamine_lasttime');
                 if((time() - $last_time) >$this->dConfig->overtime){
                     # 长时间无心跳,超时删除
                     $this->delServiceMachine($name,$sm);
@@ -64,7 +66,7 @@ class Service extends \app\Base
     public function addServiceMachine($name, $data)
     {
         $key = \funch\Arr::array_md5($data);
-        $key_cache = \funch\Arr::array_md5('server_machine_', $name);
+        $key_cache = 'server_machine_' . $name;
         $list = $this->getServiceMachine($name);
         $list[$key] = $data;
         return $this->gCache->save($key_cache, $list);
@@ -76,7 +78,35 @@ class Service extends \app\Base
      */
     public function getOneInfo($name)
     {
+        $info = $this->getServiceMachine($name);
+        output($info, 'getOneInfo');
+    }
 
+    /**
+     * 获取全部
+     * @return array
+     */
+    public function getall()
+    {
+        $data = [];
+        $name_list = $this->getListName();
+        output($name_list, 'getall');
+        foreach ($name_list as $key => $name) {
+            $list = $this->getServiceMachine($name);
+            output([$name, $list], 'getall2');
+            foreach ($list as $sm) {
+
+                if (isset($data[$sm['name']])) {
+
+                } else {
+                    $data[$sm['name']] = [];
+                }
+
+                $data[$sm['name']][] = $sm;
+            }
+        }
+
+        return $data;
     }
 
     /**
@@ -89,7 +119,7 @@ class Service extends \app\Base
     {
         output($data,'delServiceMachine');
         $key = \funch\Arr::array_md5($data);
-        $key_cache = \funch\Arr::array_md5('server_machine_', $name);
+        $key_cache = 'server_machine_' . $name;
         $list = $this->getServiceMachine($name);
         if(empty($list)){
            #空的了
@@ -107,10 +137,10 @@ class Service extends \app\Base
      */
     private function getServiceMachine($name)
     {
-        $key = \funch\Arr::array_md5('server_machine_', $name);
-        $list = $this->gCache->get($key);
+        $key_cache = 'server_machine_' . $name;
+        $list = $this->gCache->get($key_cache);
         if (empty($list)) {
-            $this->gCache->save($key, []);
+            $this->gCache->save($key_cache, []);
             return [];
         }
         return $list;
@@ -126,7 +156,7 @@ class Service extends \app\Base
         if (\count($info) > 10) {
             array_shift($info);
         }
-        array_push($info, time());
+        array_push($info, time() - 1);
         return $this->setPingInfo($data, $info);
     }
 
@@ -139,7 +169,7 @@ class Service extends \app\Base
         $key = \funch\Arr::array_md5([$data, 'ping']);
         $list = $this->gCache->get($key);
         if (empty($list)) {
-            $this->gCache->save($key, []);
+            $this->gCache->save($key, [], 20);
             return [];
         }
         return $list;
@@ -154,7 +184,7 @@ class Service extends \app\Base
     private function setPingInfo($data, $info)
     {
         $key = \funch\Arr::array_md5([$data, 'ping']);
-        return $this->gCache->save($key, $info);
+        return $this->gCache->save($key, $info, 20);
     }
 
 
