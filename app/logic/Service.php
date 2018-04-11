@@ -78,8 +78,18 @@ class Service extends \app\Base
      */
     public function getOneInfo($name)
     {
+        $data = [];
         $info = $this->getServiceMachine($name);
         output($info, 'getOneInfo');
+        foreach ($info as $sm) {
+            if (isset($data[$sm['name']])) {
+            } else {
+                $data[$sm['name']] = [];
+            }
+            $data[$sm['name']][] = $sm;
+        }
+        return $data;
+
     }
 
     /**
@@ -95,7 +105,6 @@ class Service extends \app\Base
             $list = $this->getServiceMachine($name);
             output([$name, $list], 'getall2');
             foreach ($list as $sm) {
-
                 if (isset($data[$sm['name']])) {
 
                 } else {
@@ -152,6 +161,7 @@ class Service extends \app\Base
      */
     public function ping($data)
     {
+        $this->addServiceMachine($data['name'], $data);
         $info = $this->getPingInfo($data);
         if (\count($info) > 10) {
             array_shift($info);
