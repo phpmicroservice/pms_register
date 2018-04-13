@@ -67,11 +67,13 @@ class Guidance extends \Phalcon\Di\Injectable
      */
     public function readyJudge(Event $event, \pms\Server $pms_server,$timeid)
     {
+        output(boolval($this->config->database), "准备检查:");
         if($this->config->database){
             $this->dConfig->ready=true;
             output('初始化完成', 'init');
         }
-        $this->dConfig->ready=true;
+        return 1;
+
     }
 
     /**
