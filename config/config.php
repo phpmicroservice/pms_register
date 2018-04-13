@@ -12,7 +12,7 @@ return [
         ]
     ],
     'overtime'=>10,
-    'config_init'=>true,
+    'config_init' => false,
     'server_reg'=>false,
     'ready' => false,
     'codeUpdata' => [

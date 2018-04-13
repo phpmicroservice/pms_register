@@ -70,20 +70,21 @@ $di->setShared('gCache', function () use ($di) {
             "lifetime" => 172800,
         ]
     );
-    output($di['config']->cache, 'gCache');
-    $op=[ "host" => $di['config']->cache->host,
-        "port" => $di['config']->cache->port,
-        "auth" => $di['config']->cache->auth,
-        "persistent" => $di['config']->cache->persistent,
-        'prefix' => $di['config']->cache->prefix,
-        "index" => $di['config']->cache->index];
-    if(!$di['config']->cache->auth){
+
+    $op = [
+        "host" => getenv('GCACHE_HOST'),
+        "port" => getenv('GCACHE_PORT'),
+        "auth" => getenv('GCACHE_AUTH'),
+        "persistent" => getenv('GCACHE_PERSISTENT'),
+        'prefix' => getenv('GCACHE_PREFIX'),
+        "index" => getenv('GCACHE_INDEX')
+    ];
+    if (empty($op['auth'])) {
         unset($op['auth']);
     }
-
-
+    output($op, 'gCache');
     $cache = new \Phalcon\Cache\Backend\Redis(
-        $frontCache, $op   );
+        $frontCache, $op);
     return $cache;
 });
 
@@ -129,11 +130,11 @@ $di["db"] = function () use ($di) {
     var_dump($di['config']->database);
     return new DbAdapter(
         [
-            "host" => $di['config']->database->app_mysql_host,
-            "port" => $di['config']->database->app_mysql_port,
-            "username" => $di['config']->database->app_mysql_username,
-            "password" => $di['config']->database->app_mysql_password,
-            "dbname" => $di['config']->database->app_mysql_dbname,
+            "host" => getenv('MYSQL_HOST'),
+            "port" => getenv('MYSQL_PORT'),
+            "username" => getenv('MYSQL_USERNAME'),
+            "password" => getenv('MYSQL_PASSWORD'),
+            "dbname" => getenv('MYSQL_DBNAME'),
             "options" => [
                 \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
                 \PDO::ATTR_CASE => \PDO::CASE_LOWER,

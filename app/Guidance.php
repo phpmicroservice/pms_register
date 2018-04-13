@@ -58,32 +58,27 @@ class Guidance extends \Phalcon\Di\Injectable
         $this->eventsManager->attach('Server:readySucceed', $this);
 
 
-
     }
 
 
     /**
      * 准备判断
      */
-    public function readyJudge(Event $event, \pms\Server $pms_server,$timeid)
+    public function readyJudge(Event $event, \pms\Server $pms_server, $timeid)
     {
-        output(boolval($this->config->database), "准备检查:");
-        if($this->config->database){
-            $this->dConfig->ready=true;
-            output('初始化完成', 'init');
-        }
-        return 1;
-
+        $this->dConfig->ready = true;
+        output('初始化完成', 'init');
     }
 
     /**
      * 准备完成
      */
-    public function readySucceed(){
+    public function readySucceed()
+    {
 
         # 对已注册的服务进行心跳检测
         swoole_timer_tick($this->dConfig->overtime * 500, function ($timeid) {
-            $server=new \app\logic\Service();
+            $server = new \app\logic\Service();
             $server->pingExamine();
         });
     }
@@ -97,12 +92,12 @@ class Guidance extends \Phalcon\Di\Injectable
     public function handleCall(Event $event, \pms\Router $router, $data)
     {
 
-        $new_key=md5(md5(APP_SECRET_KEY) . md5($data['name']));
-        $old_key=$data['k'];
+        $new_key = md5(md5(APP_SECRET_KEY) . md5($data['name']));
+        $old_key = $data['k'];
         if (\hash_equals($new_key, $old_key)) {
             return true;
         }
-        output([$data,APP_SECRET_KEY,$new_key,'没有权限'], 'handleCall403');
+        output([$data, APP_SECRET_KEY, $new_key, '没有权限'], 'handleCall403');
         $router->connect->send_error('没有权限', [], 403);
         return false;
     }
