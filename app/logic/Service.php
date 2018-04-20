@@ -30,7 +30,6 @@ class Service extends \app\Base
                 }
             }
         }
-
     }
 
     /**
@@ -100,10 +99,8 @@ class Service extends \app\Base
     {
         $data = [];
         $name_list = $this->getListName();
-        output($name_list, 'getall');
         foreach ($name_list as $key => $name) {
             $list = $this->getServiceMachine($name);
-            output([$name, $list], 'getall2');
             foreach ($list as $sm) {
                 if (isset($data[$sm['name']])) {
 
@@ -126,7 +123,7 @@ class Service extends \app\Base
      */
     public function delServiceMachine($name, $data)
     {
-        output($data,'delServiceMachine');
+        output([$data, $name], 'delServiceMachine');
         $key = \funch\Arr::array_md5($data);
         $key_cache = 'server_machine_' . $name;
         $list = $this->getServiceMachine($name);

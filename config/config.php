@@ -11,10 +11,11 @@ return [
             'mapdemo-demo'=>'demo-mapdemo'
         ]
     ],
-    'overtime'=>10,
+    'overtime' => 15,
     'config_init' => false,
     'server_reg'=>false,
     'ready' => false,
+    'session' => false,
     'codeUpdata' => [
         '/app/',
         '/start/',

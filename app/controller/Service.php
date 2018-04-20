@@ -14,25 +14,29 @@ class Service extends \app\Controller
     /**
      * 初始化
      */
-    protected function onInitialize($connect)
+    public function initialize()
     {
-        $this->logicServer=new \app\logic\Service($connect);
+        $this->logicServer = new \app\logic\Service();
     }
 
     /**
      * 心跳
      */
-    public function ping($data)
+    public function ping()
     {
+
+        $data = $this->connect->getData();
         $this->logicServer->ping($data);
         $this->connect->send_succee([],'收到ping!');
     }
 
+
     /**
      * 注册
      */
-    public function reg($data)
+    public function reg()
     {
+        $data = $this->connect->getData();
         $this->logicServer->addService($data['name']);
         $this->logicServer->addServiceMachine($data['name'],$data);
         $this->connect->send_succee([],'注册成功!');
@@ -41,8 +45,9 @@ class Service extends \app\Controller
     /**
      * 获取一个
      */
-    public function getone($data)
+    public function getone()
     {
+        $data = $this->connect->getData();
         $info = $this->logicServer->getOneInfo($data['name']);
         $this->connect->send_succee($info);
     }
@@ -50,8 +55,9 @@ class Service extends \app\Controller
     /**
      * 获取所有
      */
-    public function getall($data)
+    public function getall()
     {
+        $data = $this->connect->getData();
         $info = $this->logicServer->getall();
         $this->connect->send_succee($info);
     }
