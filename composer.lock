@@ -8,16 +8,16 @@
   "packages": [
     {
       "name": "phpmicroservice/funch",
-      "version": "0.0.2",
+      "version": "0.0.3",
       "source": {
         "type": "git",
         "url": "https://github.com/phpmicroservice/funch.git",
-        "reference": "4cc72d19c3acafc6dbfc875bba1c08067020b641"
+        "reference": "c2f5b6389c28f5c1a4de277923a250444856111d"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/phpmicroservice/funch/zipball/4cc72d19c3acafc6dbfc875bba1c08067020b641",
-        "reference": "4cc72d19c3acafc6dbfc875bba1c08067020b641",
+        "url": "https://api.github.com/repos/phpmicroservice/funch/zipball/c2f5b6389c28f5c1a4de277923a250444856111d",
+        "reference": "c2f5b6389c28f5c1a4de277923a250444856111d",
         "shasum": ""
       },
       "require": {
@@ -48,20 +48,20 @@
         "lodash",
         "method"
       ],
-      "time": "2018-04-10T00:51:12+00:00"
+      "time": "2018-04-26T08:45:28+00:00"
     },
     {
       "name": "phpmicroservice/pms-frame",
-      "version": "0.2.11",
+      "version": "0.2.13",
       "source": {
         "type": "git",
         "url": "https://github.com/phpmicroservice/pms.git",
-        "reference": "6c28f49d8423f4f328919b7cf100b7e230b501a5"
+        "reference": "552d3b34767497f0811361dc771f3dbf3d9d4057"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/phpmicroservice/pms/zipball/6c28f49d8423f4f328919b7cf100b7e230b501a5",
-        "reference": "6c28f49d8423f4f328919b7cf100b7e230b501a5",
+        "url": "https://api.github.com/repos/phpmicroservice/pms/zipball/552d3b34767497f0811361dc771f3dbf3d9d4057",
+        "reference": "552d3b34767497f0811361dc771f3dbf3d9d4057",
         "shasum": ""
       },
       "require": {
@@ -103,7 +103,7 @@
         "tcp",
         "websockect"
       ],
-      "time": "2018-04-26T05:01:50+00:00"
+      "time": "2018-04-26T08:50:43+00:00"
     }
   ],
   "packages-dev": [],
