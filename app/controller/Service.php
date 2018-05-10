@@ -24,7 +24,6 @@ class Service extends \app\Controller
      */
     public function ping()
     {
-
         $data = $this->connect->getData();
         $this->logicServer->ping($data);
         $this->connect->send_succee([],'收到ping!');
@@ -57,7 +56,6 @@ class Service extends \app\Controller
      */
     public function getall()
     {
-        $data = $this->connect->getData();
         $info = $this->logicServer->getall();
         $this->connect->send_succee($info);
     }
