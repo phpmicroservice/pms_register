@@ -3,6 +3,7 @@
 namespace app;
 
 use Phalcon\Events\Event;
+use pms\Dispatcher;
 
 /**
  *
@@ -56,7 +57,20 @@ class Guidance extends \Phalcon\Di\Injectable
         # 绑定一个准备判断和准备成功
         $this->eventsManager->attach('Server:readyJudge', $this);
         $this->eventsManager->attach('Server:readySucceed', $this);
+        $this->eventsManager->attach('dispatch:beforeDispatch', $this);
+    }
 
+    /**
+     * 调度之前
+     * @param $propertyName
+     */
+    public function beforeDispatch($Event, Dispatcher $dispatch)
+    {
+        if (!$this->dConfig->ready) {
+            # 服务还没准备好
+            $dispatch->connect->send_error(500, 500);
+            return false;
+        }
 
     }
 
@@ -66,7 +80,7 @@ class Guidance extends \Phalcon\Di\Injectable
      */
     public function readyJudge(Event $event, \pms\Server $pms_server, $timeid)
     {
-        $this->dConfig->ready = false;
+        $this->dConfig->ready = true;
         output('初始化完成', 'init');
     }
 

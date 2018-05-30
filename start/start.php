@@ -3,6 +3,10 @@
 echo "开始主程序! \n";
 define("SERVICE_NAME", "REGISTER");# 设置服务名字
 define('ROOT_DIR', dirname(__DIR__));
+
+# 定义一些配置
+define('APP_DEBUG', false);
+
 require ROOT_DIR . '/vendor/autoload.php';
 # 进行一些项目配置
 define('APP_SECRET_KEY', get_env("APP_SECRET_KEY"));
@@ -12,6 +16,7 @@ $re9 = env_exist([
 if (is_string($re9)) {
     exit('defined :' . $re9);
 }
+
 
 //注册自动加载
 $loader = new \Phalcon\Loader();
