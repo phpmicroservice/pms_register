@@ -70,21 +70,29 @@ $di->setShared('gCache', function () use ($di) {
             "lifetime" => 172800,
         ]
     );
-
     $op = [
         "host" => getenv('GCACHE_HOST'),
         "port" => getenv('GCACHE_PORT'),
         "auth" => getenv('GCACHE_AUTH'),
         "persistent" => getenv('GCACHE_PERSISTENT'),
         'prefix' => getenv('GCACHE_PREFIX'),
-        "index" => getenv('GCACHE_INDEX')
     ];
     if (empty($op['auth'])) {
         unset($op['auth']);
     }
-    output($op, 'gCache');
-    $cache = new \Phalcon\Cache\Backend\Redis(
-        $frontCache, $op);
+    $cache = new \Phalcon\Cache\Backend\Libmemcached($frontCache, [
+        "servers" => [
+            [
+                "host" => $op['host'],
+                "port" => $op['port'],
+                "weight" => 1,
+            ],
+        ],
+        "client" => [
+            \Memcached::OPT_HASH => \Memcached::HASH_MD5,
+            \Memcached::OPT_PREFIX_KEY => $op['prefix'],
+        ],
+    ]);
     return $cache;
 });
 
