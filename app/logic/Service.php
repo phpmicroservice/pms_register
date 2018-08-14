@@ -17,14 +17,14 @@ class Service extends \app\Base
      */
     public function pingExamine()
     {
-        Output::info('pingExamine', 'pingExamine');
+
         $name_list=$this->getListName();
+        Output::info($name_list, 'pingExamine');
         foreach ($name_list as $name){
             $list=$this->getServiceMachine($name);
             foreach ($list as $sm){
                 $pingInfo=$this->getPingInfo($sm);
                 $last_time=array_pop($pingInfo);
-                Output::info([\date('Y-m-d H:i:s', $last_time), date('Y-m-d H:i:s'), time() - $last_time, $this->dConfig->overtime], 'pingExamine_lasttime');
                 if((time() - $last_time) >$this->dConfig->overtime){
                     # 长时间无心跳,超时删除
                     $this->delServiceMachine($name,$sm);

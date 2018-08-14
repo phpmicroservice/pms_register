@@ -58,6 +58,14 @@ class Guidance extends \Phalcon\Di\Injectable
         $this->eventsManager->attach('Server:readyJudge', $this);
         $this->eventsManager->attach('Server:readySucceed', $this);
         $this->eventsManager->attach('dispatch:beforeDispatch', $this);
+        $pms_server->app->onBind('init',function (Event $event,  $app, \Swoole\Server $server){
+            # 对已注册的服务进行心跳检测
+            swoole_timer_tick($this->dConfig->overtime * 700, function ($timeid) {
+                $server = new \app\logic\Service();
+                $server->pingExamine();
+            });
+            var_dump(['73',$rer]);
+        });
     }
 
     /**
@@ -90,11 +98,7 @@ class Guidance extends \Phalcon\Di\Injectable
     public function readySucceed()
     {
 
-        # 对已注册的服务进行心跳检测
-        swoole_timer_tick($this->dConfig->overtime * 500, function ($timeid) {
-            $server = new \app\logic\Service();
-            $server->pingExamine();
-        });
+
     }
 
     /**
