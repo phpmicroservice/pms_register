@@ -57,9 +57,8 @@ class Service extends \app\Base
         $list = $this->gCache->get($key_cache);
         if (empty($list)) {
             $this->gCache->save($key_cache, []);
-            return [];
         }
-        return $list;
+        return $this->gCache->get($key_cache);
     }
 
     /**
@@ -162,7 +161,8 @@ class Service extends \app\Base
      */
     public function ping($data)
     {
-        $this->addServiceMachine($data['name'], $data);
+        $this->addService($data['name']);
+        $re=$this->addServiceMachine($data['name'], $data);
         $info = $this->getPingInfo($data);
         if (\count($info) > 10) {
             array_shift($info);
