@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d1709081a6671f8a06854fccd645d4bd",
+    "content-hash": "9a6c7523cae00d78fc048faef5d4f2e3",
     "packages": [
         {
             "name": "phpmicroservice/funch",
@@ -18,13 +18,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/phpmicroservice/funch/zipball/e8754c14a62a8258517ad4675a47dbe979e8ac0b",
                 "reference": "e8754c14a62a8258517ad4675a47dbe979e8ac0b",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "php": ">7"
@@ -58,28 +52,22 @@
         },
         {
             "name": "phpmicroservice/pms-frame",
-            "version": "0.2.50",
+            "version": "0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpmicroservice/pms.git",
-                "reference": "a90ce112417b3b0b21ece9d4ee4508b80fda94c0"
+                "reference": "ee32a7a206fb3e8b8a034d57b70907d496c6ae73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpmicroservice/pms/zipball/a90ce112417b3b0b21ece9d4ee4508b80fda94c0",
-                "reference": "a90ce112417b3b0b21ece9d4ee4508b80fda94c0",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "url": "https://api.github.com/repos/phpmicroservice/pms/zipball/ee32a7a206fb3e8b8a034d57b70907d496c6ae73",
+                "reference": "ee32a7a206fb3e8b8a034d57b70907d496c6ae73",
+                "shasum": ""
             },
             "require": {
-                "ext-phalcon": "3.1.*",
-                "ext-swoole": ">=2.1",
-                "php": ">7.1",
+                "ext-phalcon": "3.4.*",
+                "ext-swoole": "4.*",
+                "php": ">7.2",
                 "phpmicroservice/funch": "0.*"
             },
             "require-dev": {
@@ -115,7 +103,7 @@
                 "tcp",
                 "websockect"
             ],
-            "time": "2018-08-14T07:32:54+00:00"
+            "time": "2018-11-01T07:22:55+00:00"
         }
     ],
     "packages-dev": [],
