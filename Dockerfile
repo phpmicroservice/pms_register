@@ -1,4 +1,4 @@
-FROM  daocloud.io/1514582970/pms_docker_php:cli71_swoole_phalcon
+FROM  daocloud.io/1514582970/pms_docker_php:cli72_swoole_phalcon
 
 MAINTAINER      Dongasai "1514582970@qq.com"
 

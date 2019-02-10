@@ -18,7 +18,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/phpmicroservice/funch/zipball/e8754c14a62a8258517ad4675a47dbe979e8ac0b",
                 "reference": "e8754c14a62a8258517ad4675a47dbe979e8ac0b",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "php": ">7"
@@ -52,26 +58,34 @@
         },
         {
             "name": "phpmicroservice/pms-frame",
-            "version": "0.3.1",
+            "version": "0.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpmicroservice/pms.git",
-                "reference": "ee32a7a206fb3e8b8a034d57b70907d496c6ae73"
+                "reference": "aafa66b33663ee539d99ef43afdd29d54547c97a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpmicroservice/pms/zipball/ee32a7a206fb3e8b8a034d57b70907d496c6ae73",
-                "reference": "ee32a7a206fb3e8b8a034d57b70907d496c6ae73",
-                "shasum": ""
+                "url": "https://api.github.com/repos/phpmicroservice/pms/zipball/aafa66b33663ee539d99ef43afdd29d54547c97a",
+                "reference": "aafa66b33663ee539d99ef43afdd29d54547c97a",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "ext-phalcon": "3.4.*",
                 "ext-swoole": "4.*",
+                "ext-swoole_serialize": "0.1.*",
                 "php": ">7.2",
                 "phpmicroservice/funch": "0.*"
             },
             "require-dev": {
-                "eaglewu/swoole-ide-helper": "dev-master@dev"
+                "eaglewu/swoole-ide-helper": "dev-master@dev",
+                "phalcon/ide-stubs": "v3.4.*"
             },
             "type": "project",
             "autoload": {
@@ -103,7 +117,7 @@
                 "tcp",
                 "websockect"
             ],
-            "time": "2018-11-01T07:22:55+00:00"
+            "time": "2019-02-08T10:00:27+00:00"
         }
     ],
     "packages-dev": [],
