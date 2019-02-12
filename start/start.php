@@ -1,7 +1,7 @@
 <?php
 //include './logo.php';
 echo "开始主程序! \n";
-define("SERVICE_NAME", "REGISTER");# 设置服务名字
+define("APP_SERVICE_NAME", "register");# 设置服务名字
 define('ROOT_DIR', dirname(__DIR__));
 
 # 定义一些配置
@@ -34,9 +34,8 @@ $server = new \pms\Server('0.0.0.0', 9502, SWOOLE_BASE, SWOOLE_SOCK_TCP, [
     'worker_num_mulriple' => 1,
     'task_worker_num_mulriple' => 1,
     'reload_async' => false,
-    'open_eof_split' => true, //打开EOF检测
-    'package_eof' => PACKAGE_EOF, //设置EOF
 ]);
+
 
 $guidance = new \app\Guidance();
 $server->onBind('onWorkerStart', $guidance);
