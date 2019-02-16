@@ -1,5 +1,11 @@
 {
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/phpmicroservice/pms.git"
+    }
+  ],
   "require": {
-    "phpmicroservice/pms-frame": "0.3.*"
+    "phpmicroservice/pms-frame": "dev-dev"
   }
 }
