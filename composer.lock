@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9a6c7523cae00d78fc048faef5d4f2e3",
+    "content-hash": "cf167b778365b42f564779d7c1d9278e",
     "packages": [
         {
             "name": "phpmicroservice/funch",
@@ -58,23 +58,17 @@
         },
         {
             "name": "phpmicroservice/pms-frame",
-            "version": "0.3.4",
+            "version": "0.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpmicroservice/pms.git",
-                "reference": "ef86cfb6a6f73e34080656e8400bd8679568789a"
+                "reference": "8a96725585908a21c8d6ac407d1a2258ca9890c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpmicroservice/pms/zipball/ef86cfb6a6f73e34080656e8400bd8679568789a",
-                "reference": "ef86cfb6a6f73e34080656e8400bd8679568789a",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "url": "https://api.github.com/repos/phpmicroservice/pms/zipball/8a96725585908a21c8d6ac407d1a2258ca9890c6",
+                "reference": "8a96725585908a21c8d6ac407d1a2258ca9890c6",
+                "shasum": ""
             },
             "require": {
                 "ext-phalcon": "3.4.*",
@@ -91,9 +85,11 @@
             "autoload": {
                 "psr-4": {
                     "pms\\": "src/"
-                }
+                },
+                "files": [
+                    "src/function.php"
+                ]
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -108,19 +104,25 @@
             "description": "一个采用Swoole做底层,采用Phalcon作为框架类库的微服务框架",
             "homepage": "http://pms.2xso.com",
             "keywords": [
-                "Microservice",
+                "microservice",
                 "phalcon",
                 "swoole",
                 "tcp",
                 "websockect"
             ],
-            "time": "2019-02-12T12:23:24+00:00"
+            "support": {
+                "source": "https://github.com/phpmicroservice/pms/tree/0.3",
+                "issues": "https://github.com/phpmicroservice/pms/issues"
+            },
+            "time": "2019-02-17T10:16:48+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "phpmicroservice/pms-frame": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

@@ -84,7 +84,7 @@ class Service extends \app\Base
      */
     public function delServiceMachine($name, $data)
     {
-        output([$data, $name], 'delServiceMachine');
+        \pms\output([$data, $name], 'delServiceMachine');
         $key = \funch\Arr::array_md5($data);
         $key_cache = 'server_machine_' . $name;
         $list = $this->getServiceMachine($name);
@@ -119,7 +119,7 @@ class Service extends \app\Base
     {
         $data = [];
         $info = $this->getServiceMachine($name);
-        output($info, 'getOneInfo');
+        \pms\output($info, 'getOneInfo');
         foreach ($info as $sm) {
             if (isset($data[$sm['name']])) {
             } else {

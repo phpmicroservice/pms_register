@@ -6,6 +6,6 @@
     }
   ],
   "require": {
-    "phpmicroservice/pms-frame": "dev-dev"
+    "phpmicroservice/pms-frame": "0.3.*@dev"
   }
 }
