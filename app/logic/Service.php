@@ -22,6 +22,7 @@ class Service extends \app\Base
         Output::info($name_list, 'pingExamine');
         foreach ($name_list as $name){
             $list=$this->getServiceMachine($name);
+            Output::info($list, 'pingExamine2');
             foreach ($list as $sm){
                 $pingInfo=$this->getPingInfo($sm);
                 $last_time=array_pop($pingInfo);
